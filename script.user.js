@@ -1,14 +1,14 @@
 // ==UserScript==
-// @name         My Script
-// @namespace    https://github.com/YOUR_USERNAME/YOUR_REPO
+// @name         AWS Filter Generate TRF
+// @namespace    https://github.com/Sergo-Kaz13/aws-filter-generate-trf
 // @version      1.0.0
-// @description  Опис що робить скрипт
-// @author       Your Name
+// @description  Collects products from one site, filters by warehouse location availability, returns filtered list
+// @author       Sergo-Kaz13
 // @match        https://example.com/page-one/*
 // @match        https://example.com/page-two/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/script.user.js
-// @downloadURL  https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/script.user.js
+// @updateURL    https://raw.githubusercontent.com/Sergo-Kaz13/aws-filter-generate-trf/master/script.user.js
+// @downloadURL  https://raw.githubusercontent.com/Sergo-Kaz13/aws-filter-generate-trf/master/script.user.js
 // ==/UserScript==
 
 (function () {
