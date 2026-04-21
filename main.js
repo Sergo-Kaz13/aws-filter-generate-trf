@@ -2,14 +2,18 @@
   "use strict";
 
   const PAGE = {
-   ONE:"https://aws.autodoc.de/store/transfer/waiting",
-    TWO: "https://m13.autodoc.de/admin-panel/operational-info/stock-shelves",
+   ONE:"/store/transfer/waiting",
+    TWO: "/admin-panel/operational-info/stock-shelves",
   };
 
   console.log("Script loaded, current URL:", window.location.href);
 
+function getBasePath() {
+  return window.location.pathname;
+}
+
   function getCurrentPage() {
-    const url = window.location.href.split("?")[0];
+    const url = getBasePath()
     if (url.includes(PAGE.ONE)) return PAGE.ONE;
     if (url.includes(PAGE.TWO)) return PAGE.TWO;
     return null;
