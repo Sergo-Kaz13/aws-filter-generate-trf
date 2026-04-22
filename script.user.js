@@ -16,18 +16,18 @@
   "use strict";
 
   const PAGE = {
-   ONE:"/store/transfer/waiting",
+    ONE: "/store/transfer/waiting",
     TWO: "/admin-panel/operational-info/stock-shelves",
   };
 
   console.log("Script loaded, current URL:", window.location.href);
 
-function getBasePath() {
-  return window.location.pathname;
-}
+  function getBasePath() {
+    return window.location.pathname;
+  }
 
   function getCurrentPage() {
-    const url = getBasePath()
+    const url = getBasePath();
     if (url.includes(PAGE.ONE)) return PAGE.ONE;
     if (url.includes(PAGE.TWO)) return PAGE.TWO;
     return null;
