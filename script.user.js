@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Filter Generate TRF
 // @namespace    https://github.com/Sergo-Kaz13/aws-filter-generate-trf
-// @version      1.0.3
+// @version      1.0.4
 // @description  Collects products from one site...
 // @author       Sergo-Kaz13
 // @match        https://aws.autodoc.de/store/transfer/waiting*
@@ -135,32 +135,41 @@
       alert(`Done! Found ${filteredIds.length} of ${ids.length}`);
     });
 
-    function waitForAddress(timeout = 10000, interval = 100) {
+    function getAllAddresses() {
+      return [...document.querySelectorAll(".shelf-head__address b")].map(
+        (el) => el.textContent.trim(),
+      );
+    }
+
+    function waitForAddress(prev, timeout = 10000) {
       return new Promise((resolve, reject) => {
         const start = Date.now();
 
-        const timer = setInterval(() => {
-          const el = document.querySelector(".shelf-head__address b");
-          const value = el?.textContent?.trim();
+        const check = () => {
+          const current = getAllAddresses();
 
-          if (value) {
-            clearInterval(timer);
-            resolve(value);
+          const changed =
+            current.length > 0 &&
+            JSON.stringify(current) !== JSON.stringify(prev);
+
+          if (changed) return resolve(current);
+
+          if (Date.now() - start >= timeout) {
+            return reject(new Error("Timeout waiting for address change"));
           }
 
-          if (Date.now() - start > timeout) {
-            clearInterval(timer);
-            reject(new Error("Timeout"));
-          }
-        }, interval);
+          requestAnimationFrame(check);
+        };
+
+        check();
       });
     }
-
     async function filterIds(ids, locations) {
       const filtered = [];
       console.log(["filtered"], filtered);
 
       for (const id of ids) {
+        const prev = getAllAddresses();
         console.log("Processing id:", id); // ✅
         inputArticleId.value = id;
         submitBtn.click();
@@ -168,7 +177,9 @@
         try {
           console.log("Before waitForUpdate"); // ✅
           // await waitForUpdate(); // селектор елемента який оновлюється
-          const addressValue = await waitForAddress();
+          const currentAddress = await waitForAddress(prev);
+          console.log(["currentAddress"], currentAddress);
+
           console.log("After waitForUpdate"); // ✅
 
           const address = [
